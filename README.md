@@ -17,6 +17,10 @@ sequenceDiagram
     haproxy->>auth_service: Get user profile.
     auth_service->>redis: check user session.
     redis->>auth_service: User found, sending username.
+    auth_service->>score_service: Require user's score.
+    score_service->>redis: require user's score.
+    redis->>score_service: send user's score.
+    score_service->>auth_service: Send user's score.
     auth_service->>haproxy: User found using session.sid, sending profile.
     haproxy->>Client: User found using session.sid, sending profile.
     Client->>haproxy: Require word validation.
