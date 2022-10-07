@@ -1,1 +1,15 @@
-[![](https://mermaid.ink/img/pako:eNqVksFqwzAMhl9F-Nz1AXIojA122hgN2ykXL1JS08TOZLullL77pKQZhS6HORCC_Un_7z86mzogmcJE-s7ka3p2tmXbVx5kPXWOfHrYbEriA3EBL5QgR2IYODSuo_XETcfCTQUFfCjzFhI0IXtcQSSP8orRBb-ODqEOYe_m8juZUnHt4W1_pzFDj4jOt6MdxSAFSDuCOjNLt-4kGt5TnQhHZsnqqPXHnX5NzeCWumAR3m276Ptf8YzRCK6XuIlmCks3F_zMYlv5Y44JjoERDrZzaJP2WND8nIgr_6Xx9INlFTq6tBuziymwxKWEtNEHbpZZmZ64tw5lXs56Vhmp6qkyhXyi5X1lKn8RzuYUypOvTZE408rkQaWvs2WKxnZRdgmdCL5OAzjO4eUHHVLeoA)](https://mermaid.live/edit#pako:eNqVksFqwzAMhl9F-Nz1AXIojA122hgN2ykXL1JS08TOZLullL77pKQZhS6HORCC_Un_7z86mzogmcJE-s7ka3p2tmXbVx5kPXWOfHrYbEriA3EBL5QgR2IYODSuo_XETcfCTQUFfCjzFhI0IXtcQSSP8orRBb-ODqEOYe_m8juZUnHt4W1_pzFDj4jOt6MdxSAFSDuCOjNLt-4kGt5TnQhHZsnqqPXHnX5NzeCWumAR3m276Ptf8YzRCK6XuIlmCks3F_zMYlv5Y44JjoERDrZzaJP2WND8nIgr_6Xx9INlFTq6tBuziymwxKWEtNEHbpZZmZ64tw5lXs56Vhmp6qkyhXyi5X1lKn8RzuYUypOvTZE408rkQaWvs2WKxnZRdgmdCL5OAzjO4eUHHVLeoA)
+```mermaid
+
+sequenceDiagram
+    Client->>Server: Get user profile.
+    Server->>Client: User Not found, send session.sid cookie.
+    Client->>Server: Send Username.
+    Server->>Server: Adding username to the currently connected user.
+    Server->>Client: Send user profile.
+    Client->>Client: Reload Page.
+    Client->>Server: Get user profile.
+    Server->>Client: User found using session.sid, sending profile.
+    Client->>Server: Require word validation.
+    Server->>Client: Validate word by comparing with the stored word.
+
+```
