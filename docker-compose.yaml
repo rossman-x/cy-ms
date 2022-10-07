@@ -1,28 +1,46 @@
 version: "2"
 services:
-  web1:
-    build: ./api
+  auth_service_1:
+    build: ./api/auth-service
     restart: "always"
     environment:
       - REDIS_URL=redis://cache
       - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
-      - ./api:/usr/app/
+      - ./api/auth-service:/usr/app/
       - /usr/app/node_modules
-  web2:
-    build: ./api
+  auth_service_2:
+    build: ./api/auth-service
     restart: "always"
     environment:
       - REDIS_URL=redis://cache
       - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
-      - ./api:/usr/app/
+      - ./api/auth-service:/usr/app/
+      - /usr/app/node_modules
+  score_service_1:
+    build: ./api/score-service
+    restart: "always"
+    environment:
+      - REDIS_URL=redis://cache
+      - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./api/score-service:/usr/app/
+      - /usr/app/node_modules
+  core_service_1:
+    build: ./api/core-service
+    restart: always
+    environment:
+      - REDIS_URL=redis://cache
+      - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./api/core-service:/usr/app/
       - /usr/app/node_modules
   front1:
     build: ./front_ms
     volumes:
       - ./front_ms:/app
-      - '/app/node_modules'
+      - "/app/node_modules"
     ports:
       - "8081:3000"
   haproxy:

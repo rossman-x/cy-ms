@@ -2,22 +2,29 @@ import logo from "./logo.svg";
 import "./App.css";
 import Matrix from "./components/matrix";
 import React, { useState, useRef, useEffect } from "react";
-import { connectUser, getUserProfile } from "./services/user.service";
-
-const MATRIX_SIZE = 6;
+import {
+  connectUser,
+  getUserProfile,
+  getGameScore,
+} from "./services/user.service";
+import { getGameData } from "./services/matrix.service";
 
 function App() {
-  const [connectedUser, setConnectedUser] = useState();
+  const [gameData, setGameData] = useState();
   const userInputRef = useRef();
 
   useEffect(() => {
-    getUserProfile()
-      .then((data) => {
-        if (data && data.username) {
-          setConnectedUser(data);
-        }
-      })
-      .catch(() => console.error("Cannot find user"));
+    const loadInit = async () => {
+      try {
+        const userData = await getUserProfile();
+        const gameData = await getGameData();
+        setGameData({ ...gameData, connectedUser: userData });
+      } catch (error) {
+        console.error("Cannot find user");
+        return;
+      }
+    };
+    loadInit();
   }, []);
 
   const updateUser = async () => {
@@ -28,24 +35,64 @@ function App() {
     }
 
     const updatedUser = await connectUser(userInputRef.current.value);
-    console.log(updatedUser);
+
     if (!updatedUser || !updatedUser.username) {
       // eslint-disable-next-line no-undef
       alert("Cannot update user");
       return;
     }
-    setConnectedUser(updatedUser);
+
+    const gameData = await getGameData();
+    setGameData({ ...gameData, connectedUser: updatedUser });
   };
+
+  const showScore = async () => {
+    const scores = await getGameScore();
+    const userData = await getUserProfile();
+    setGameData({
+      ...gameData,
+      connectedUser: userData,
+      scores: { data: scores, isVisible: true },
+    });
+  };
+
+  console.log(gameData);
 
   return (
     <div className="App">
-      {connectedUser ? (
+      {gameData && gameData.connectedUser ? (
         <>
           <div className="bg-blue-200">
             <h1 className="text-[30px] font-bold text-center">My MOTUS APP</h1>
-            <h2 className="fixed top-0 right-5">test</h2>
+            <h2 className="fixed top-0 right-5">
+              {gameData.connectedUser.username}
+              <br />
+              Score: {gameData.connectedUser.score} Pt.
+            </h2>
           </div>
-          <Matrix size={MATRIX_SIZE}></Matrix>
+          {gameData.scores &&
+          gameData.scores.isVisible &&
+          gameData.scores.data &&
+          gameData.scores.data.length ? (
+            <div className="w-[200px] mt-4 mx-auto">
+              <table className=" border-4 border-gray-600 bg-blue-200">
+                <tr>
+                  <th>Rank #</th>
+                  <th>Username</th>
+                  <th>Score</th>
+                </tr>
+                {gameData.scores.data.map((d, i) => (
+                  <tr>
+                    <td>{i}</td>
+                    <td>{d.username}</td>
+                    <td>{d.score}</td>
+                  </tr>
+                ))}
+              </table>
+            </div>
+          ) : (
+            <Matrix size={gameData.length} showScore={showScore}></Matrix>
+          )}
         </>
       ) : (
         <div className="bg-blue-200 mx-auto w-[200px] px-4 mt-4 flex flex-col align-middle">

@@ -7,9 +7,14 @@ const Row = ({ updateTextAtRow, rowData }) => {
       {rowData.values.map((val, i) => (
         <Cell
           updateText={(newText) => updateTextAtRow(newText, i)}
-          isCorrect={rowData.rightValuesIndexes.includes(i)}
+          isCorrect={
+            rowData.rightValuesIndexes && rowData.rightValuesIndexes.includes(i)
+          }
           isLocked={rowData.isLocked}
-          isMisplaced={rowData.misplacedValuesIndexes.includes(i)}
+          isMisplaced={
+            rowData.misplacedValuesIndexes &&
+            rowData.misplacedValuesIndexes.includes(i)
+          }
         ></Cell>
       ))}
     </div>

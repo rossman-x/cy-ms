@@ -2,13 +2,13 @@ import Row from "./row";
 import { checkMatrixRow } from "../services/matrix.service";
 import React, { useState } from "react";
 
-const Matrix = ({ size }) => {
+const Matrix = ({ size, showScore }) => {
   const [rows, setRows] = useState([
     {
       attempt: 0,
-      values: ["", "", "", "", ""],
-      rightValuesIndexes: [1, 2, 3],
-      misplacedValuesIndexes: [1, 4],
+      values: Array(size).fill(""),
+      rightValuesIndexes: [],
+      misplacedValuesIndexes: [],
       isLocked: false,
     },
   ]);
@@ -20,13 +20,37 @@ const Matrix = ({ size }) => {
       const updatedRows = [...rows];
       updatedRows[j] = updatedRow;
       console.log(updatedRows);
-      setRows(updatedRows);
+      // setRows(updatedRows);
     }
   };
 
   const submitEssaie = async (row) => {
+    for (let v of row.values) {
+      if (!v || v.length > 1) {
+        // eslint-disable-next-line no-undef
+        alert("Error field value " + v);
+        return;
+      }
+    }
     const response = await checkMatrixRow(row);
-    console.log(response);
+    if (!response || !response.data || !response.data.row) {
+      // eslint-disable-next-line no-undef
+      alert("Cannot get values");
+      return;
+    }
+    if (response.data.row.finished) {
+      return showScore();
+    }
+    const updatedRows = [...rows];
+    updatedRows[updatedRows.length - 1] = {
+      ...response.data.row,
+      isLocked: true,
+    };
+    updatedRows.push({
+      values: Array(size).fill(""),
+      attempt: +row.attempt + 1,
+    });
+    setRows(updatedRows);
   };
 
   return (

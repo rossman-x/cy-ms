@@ -12,15 +12,21 @@ const Cell = ({ updateText, isCorrect, isLocked, isMisplaced }) => {
   return (
     <div
       className={`w-full text-[24px] mx-2 border-2 border-black border-solid text-center ${
-        isCorrect ? " bg-green-500" : isMisplaced ? `bg-yellow-500` : ""
+        isCorrect
+          ? " bg-green-500"
+          : isMisplaced
+          ? `bg-yellow-500`
+          : isLocked
+          ? "bg-red-500"
+          : "bg-gray-500"
       }`}
     >
       <input
         type="text"
         disabled={isLocked}
-        className="w-6 text-center"
+        className="w-6 text-center rounded-lg"
         placeholder="-"
-        onChange={(e) => modifyText(e.target.value)}
+        onChange={(e) => modifyText(e.target.value.toUpperCase())}
         value={text}
       />
     </div>
