@@ -1,0 +1,36 @@
+version: "2"
+services:
+  web1:
+    build: ./api
+    restart: "always"
+    environment:
+      - REDIS_URL=redis://cache
+      - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./api:/usr/app/
+      - /usr/app/node_modules
+  web2:
+    build: ./api
+    restart: "always"
+    environment:
+      - REDIS_URL=redis://cache
+      - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./api:/usr/app/
+      - /usr/app/node_modules
+  front1:
+    build: ./front_ms
+    volumes:
+      - ./front_ms:/app
+      - '/app/node_modules'
+    ports:
+      - "8081:3000"
+  haproxy:
+    build: .
+    restart: "always"
+    ports:
+      - "3000:3000"
+  cache:
+    image: redis:latest
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
