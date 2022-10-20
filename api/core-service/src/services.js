@@ -1,4 +1,5 @@
 import axios from "axios";
+import { WORD } from "./config.js";
 
 export const verifyWord = async (req, client) => {
   if (!req.body || !req.session || !req.session.username) {
@@ -9,7 +10,7 @@ export const verifyWord = async (req, client) => {
   const row = req.body.row;
   if (!row || !row.values || isNaN(+row.attempt))
     return { error: "Cannot find row." };
-  const correctWord = "DAY".split(""); //await client.get("DAY_WORD");
+  const correctWord = WORD.split(""); //await client.get("DAY_WORD");
   if (!correctWord) {
     return { error: "No daily word is stored" };
   }
@@ -28,13 +29,10 @@ export const verifyWord = async (req, client) => {
   const finished = correctWord.length === correctValues.length;
   if (finished) {
     try {
-      await axios.post(
-        `http://score_service_1:4000/private/score/update`,
-        {
-          username: req.session.username,
-          add: 30,
-        }
-      );
+      await axios.post(`http://score_service_1:4000/private/score/update`, {
+        username: req.session.username,
+        add: 30,
+      });
     } catch (err) {
       console.error(err);
     }

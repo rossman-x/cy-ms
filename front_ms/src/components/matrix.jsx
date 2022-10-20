@@ -55,6 +55,11 @@ const Matrix = ({ size, showScore }) => {
 
   return (
     <div className="w-[400px] w-3/4 mt-4 mx-auto">
+      {rows.length ? (
+        <h2>You have tried {rows[rows.length - 1].attempt} times.</h2>
+      ) : (
+        ""
+      )}
       <div id="column">
         {rows.map((rData, j) => (
           <Row

@@ -3,7 +3,7 @@ const Cell = ({ updateText, isCorrect, isLocked, isMisplaced }) => {
   const [text, setText] = useState("");
 
   const modifyText = (newText) => {
-    if (newText && newText.length) {
+    if (newText) {
       setText(newText[0]);
       updateText(newText[0]);
     }

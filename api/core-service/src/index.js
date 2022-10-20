@@ -5,6 +5,9 @@ import redis from "redis";
 import RedisStore from "connect-redis";
 import cors from "cors";
 import { verifyWord } from "./services.js";
+import { createLogger } from "winston";
+import { LokiConfig, WORD } from "./config.js";
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -16,6 +19,7 @@ app.use(
     methods: ["GET", "POST"],
   })
 );
+const logger = createLogger(LokiConfig);
 
 const client = redis.createClient({
   url: process.env.REDIS_URL,
@@ -39,8 +43,15 @@ app.use(
 );
 
 app.get("/core/game", async (req, res) => {
+  logger.info({
+    message: "URL " + req.url,
+    labels: {
+      url: req.url,
+      username: req.session ? req.session.username : null,
+    },
+  });
   const body = {
-    length: 3,
+    length: WORD.length,
   };
   if (body.error) {
     res.status(404).send(JSON.stringify(body));
@@ -50,6 +61,13 @@ app.get("/core/game", async (req, res) => {
 });
 
 app.post("/core/validate", async (req, res) => {
+  logger.info({
+    message: "URL " + req.url,
+    labels: {
+      url: req.url,
+      username: req.session ? req.session.username : null,
+    },
+  });
   const body = await verifyWord(req, client);
   if (body.error) {
     res.status(404).send(JSON.stringify(body));
