@@ -5,6 +5,9 @@ import session from "express-session";
 import redis from "redis";
 import RedisStore from "connect-redis";
 import cors from "cors";
+import { createLogger } from "winston";
+import { LokiConfig } from "./config.js";
+import { auth } from "express-openid-connect";
 
 const app = express();
 
@@ -17,6 +20,18 @@ app.use(
     methods: ["GET", "POST"],
   })
 );
+
+app.use(
+  auth({
+    idpLogout: true,
+    routes: {
+      login: "auth/login",
+      callback: "/",
+    },
+  })
+);
+
+const logger = createLogger(LokiConfig);
 
 const client = redis.createClient({
   url: process.env.REDIS_URL,
@@ -40,17 +55,37 @@ app.use(
 );
 
 app.post("/auth/connect", async (req, res) => {
+  logger.info({
+    message: "URL " + req.url,
+    labels: {
+      url: req.url,
+      username: req.session ? req.session.username : null,
+    },
+  });
   const body = await connectUser(req, client);
+  if (body.username) {
+    res.oidc.login({
+      returnTo: "/profile",
+      username: body.username,
+    });
+  }
   res.end(JSON.stringify(body));
 });
 
 app.get("/auth/connect", async (req, res) => {
+  logger.info({
+    message: "URL " + req.url,
+    labels: {
+      url: req.url,
+      username: req.session ? req.session.username : null,
+    },
+  });
   const body = await getUser(req, client);
   if (body.error) {
     res.status(404).send(JSON.stringify(body));
     return;
   }
-  res.end(JSON.stringify(body));
+  res.end(JSON.stringify({ ...body, user: req.oidc.user }));
 });
 
 app.listen(4000);

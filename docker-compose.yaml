@@ -6,6 +6,10 @@ services:
     environment:
       - REDIS_URL=redis://cache
       - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      - SECRET=LONG_RANDOM_STRING
+      - ISSUER_BASE_URL=https://dev-supja3wi2v63a7tc.us.auth0.com
+      - CLIENT_ID=Divq0Oey0Ok8ywvIJtd1fbN7uG9IME4I
+      - BASE_URL=http://localhost:8081/
     volumes:
       - ./api/auth-service:/usr/app/
       - /usr/app/node_modules
@@ -15,6 +19,10 @@ services:
     environment:
       - REDIS_URL=redis://cache
       - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      - SECRET=LONG_RANDOM_STRING
+      - ISSUER_BASE_URL=https://dev-supja3wi2v63a7tc.us.auth0.com
+      - CLIENT_ID=Divq0Oey0Ok8ywvIJtd1fbN7uG9IME4I
+      - BASE_URL=http://localhost:8081/
     volumes:
       - ./api/auth-service:/usr/app/
       - /usr/app/node_modules
@@ -24,6 +32,10 @@ services:
     environment:
       - REDIS_URL=redis://cache
       - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      - SECRET=LONG_RANDOM_STRING
+      - ISSUER_BASE_URL=https://dev-supja3wi2v63a7tc.us.auth0.com
+      - CLIENT_ID=Divq0Oey0Ok8ywvIJtd1fbN7uG9IME4I
+      - BASE_URL=http://localhost:8081/
     volumes:
       - ./api/score-service:/usr/app/
       - /usr/app/node_modules
@@ -33,6 +45,10 @@ services:
     environment:
       - REDIS_URL=redis://cache
       - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      - SECRET=LONG_RANDOM_STRING
+      - ISSUER_BASE_URL=https://dev-supja3wi2v63a7tc.us.auth0.com
+      - CLIENT_ID=Divq0Oey0Ok8ywvIJtd1fbN7uG9IME4I
+      - BASE_URL=http://localhost:8081/
     volumes:
       - ./api/core-service:/usr/app/
       - /usr/app/node_modules
