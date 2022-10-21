@@ -104,4 +104,6 @@ App.js permet de lancer la partie back de l'application en récupérant le profi
 - cache           
 - grafana-loki    
 - grafana 
+=======
+Le projet est composé de 3 API et de 9 microservices. 
 
