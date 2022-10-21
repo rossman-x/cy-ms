@@ -36,6 +36,8 @@ La longueur du mot lui sont données.
 
 Si l'utilisateur n'est pas connecté, il sera renvoyer sur une page Auth0 d'authentification en appuiant sur le button Login.
 
+Une liste "dictionnaire" des mots est enregistrée dans le back-end du projet, elle permet de mettre à jour le mot tous les jours.
+
 Les lettres bien placées s'affichent en vert, les lettres contenues dans le mot mais mal placées s'affichent en jaune et les lettres qui ne sont pas dans le mot s'affichent en rouge. 
 
 Un score est attribué à chaque mot trouvé. 
