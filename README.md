@@ -7,7 +7,7 @@ Le jeu Motus est un jeu en ligne, dans lequel il faut découvrir le mot du jour,
 Le mot masqué est mis à jour chaque jour, et vous disposez de cinq essais.  
 
 
-## Fonctionnement du projet 
+## Fonctionnement général 
 
 L'utilisateur se connecte sur le site Motus puis arrive sur la page lui permettant de deviner le mot du jour. 
 La longueur du mot lui sont données. 
@@ -25,6 +25,7 @@ Le projet utilise docker-compose, la mise en place se fait à partir des command
 	`docker-compose start`	
     
 Puis se connecter au http://localhost:8081/
+
 
 ## Technologies utilisées 
 
@@ -75,5 +76,34 @@ sequenceDiagram
 
 ## Description des microservices et des API  
 
+Le projet est composé de 3 API ainsi que d'une partie Front indépendante, totalisant 9 microservices. 
+
+### API 
+
+- authent-service: permet de se connecter ou de créer un compte. 
+Crée une session Reddis et récupère les informations sur le joueur dans la BDD. 
+
+- core-service: récupère le username, génère le mot du jour, compte le nombre d'essai du joueur, vérifie la saisie et l'emplacement des lettres, augmente le score si le mot est trouvé.  
+
+- score-service: récupère le score avec le username, crée un score null si le joueur n'a jamais joué
+
+### Front 
+
+La partie front est codée en React. 
+App.js permet de lancer la partie back de l'application en récupérant le profil de l'utilisateur et les données de jeu. 
+
+
+### Microservices 
+
+- auth_service_1  
+- auth_service_2  
+- score_service_1 
+- core_service_1  
+- front1         
+- haproxy        
+- cache           
+- grafana-loki    
+- grafana 
+=======
 Le projet est composé de 3 API et de 9 microservices. 
 
