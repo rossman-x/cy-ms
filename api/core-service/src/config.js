@@ -1,4 +1,5 @@
 import LokiTransport from "winston-loki";
+import * as fs from 'fs';
 
 export const LokiConfig = {
   transports: [
@@ -9,5 +10,6 @@ export const LokiConfig = {
   ],
 };
 
-export const WORD = "TEST";
-export const ATTEMPT_LIMIT = 5;
+const arrayWords = await fs.readFileSync('./liste_francais_utf8.txt').toString().split("\n");;
+export const WORD = arrayWords[ (new Date().getDate() * 10) ].toUpperCase();
+
