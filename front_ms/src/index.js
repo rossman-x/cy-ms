@@ -1,13 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Auth0Provider } from "@auth0/auth0-react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// eslint-disable-next-line no-undef
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Auth0Provider
+      domain="dev-supja3wi2v63a7tc.us.auth0.com"
+      clientId="pesXsPiQU5BDqL9vylMKK2oeIc63OypN"
+      redirectUri={"http://localhost:8081"}
+    >
+      <App />
+    </Auth0Provider>
   </React.StrictMode>
 );
 

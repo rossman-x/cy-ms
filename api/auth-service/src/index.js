@@ -5,6 +5,8 @@ import session from "express-session";
 import redis from "redis";
 import RedisStore from "connect-redis";
 import cors from "cors";
+import { createLogger } from "winston";
+import { LokiConfig } from "./config.js";
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use(
     methods: ["GET", "POST"],
   })
 );
+
+const logger = createLogger(LokiConfig);
 
 const client = redis.createClient({
   url: process.env.REDIS_URL,
@@ -40,11 +44,25 @@ app.use(
 );
 
 app.post("/auth/connect", async (req, res) => {
+  logger.info({
+    message: "URL " + req.url,
+    labels: {
+      url: req.url,
+      username: req.session ? req.session.username : null,
+    },
+  });
   const body = await connectUser(req, client);
   res.end(JSON.stringify(body));
 });
 
 app.get("/auth/connect", async (req, res) => {
+  logger.info({
+    message: "URL " + req.url,
+    labels: {
+      url: req.url,
+      username: req.session ? req.session.username : null,
+    },
+  });
   const body = await getUser(req, client);
   if (body.error) {
     res.status(404).send(JSON.stringify(body));
