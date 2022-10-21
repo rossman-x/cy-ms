@@ -7,7 +7,6 @@ import RedisStore from "connect-redis";
 import cors from "cors";
 import { createLogger } from "winston";
 import { LokiConfig } from "./config.js";
-import { auth } from "express-openid-connect";
 
 const app = express();
 
@@ -18,16 +17,6 @@ app.use(
     origin: "http://localhost:8081",
     credentials: true,
     methods: ["GET", "POST"],
-  })
-);
-
-app.use(
-  auth({
-    idpLogout: true,
-    routes: {
-      login: "auth/login",
-      callback: "/",
-    },
   })
 );
 
@@ -63,12 +52,6 @@ app.post("/auth/connect", async (req, res) => {
     },
   });
   const body = await connectUser(req, client);
-  if (body.username) {
-    res.oidc.login({
-      returnTo: "/profile",
-      username: body.username,
-    });
-  }
   res.end(JSON.stringify(body));
 });
 
@@ -85,7 +68,7 @@ app.get("/auth/connect", async (req, res) => {
     res.status(404).send(JSON.stringify(body));
     return;
   }
-  res.end(JSON.stringify({ ...body, user: req.oidc.user }));
+  res.end(JSON.stringify(body));
 });
 
 app.listen(4000);

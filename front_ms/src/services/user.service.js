@@ -1,12 +1,12 @@
 import axios from "axios";
 import { HOSTNAME } from "../R";
 
-export const connectUser = async (username) => {
+export const connectUser = async (token) => {
   try {
     const response = await axios.post(
       `${HOSTNAME}/auth/connect`,
       {
-        username,
+        username: token,
       },
       { withCredentials: true }
     );
