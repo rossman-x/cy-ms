@@ -11,9 +11,8 @@ Le mot masqué est mis à jour chaque jour, et vous disposez de cinq essais.
 
 L'utilisateur se connecte sur le site Motus puis arrive sur la page lui permettant de deviner le mot du jour. 
 La longueur du mot lui sont données. 
-Les lettres bien placées s'affichent en vert. 
-Les lettres contenues dans le mot mais mal placées s'affichent en jaune. 
-Les lettres qui ne sont pas dans le mot s'affichent en rouge. 
+
+Les lettres bien placées s'affichent en vert, les lettres contenues dans le mot mais mal placées s'affichent en jaune et les lettres qui ne sont pas dans le mot s'affichent en rouge. 
 
 Un score est attribué à chaque mot trouvé. 
 Le score et le classement des joueurs sont consultables dans une autre page. 
@@ -21,8 +20,21 @@ Le score et le classement des joueurs sont consultables dans une autre page.
 
 ## Comment utiliser le projet 
 
+Le projet utilise docker-compose, la mise en place se fait à partir des commandes suivantes: 
+	 `docker-compose build`
+	`docker-compose start`	
+    
+Puis se connecter au http://localhost:8081/
+
 ## Technologies utilisées 
 
+Voici une vue d’ensemble des technologies que nous avons utilisées dans le projet:
+
+- Front: React
+- BDD et Cache: Redis
+- Logs et gestion : grafana- loki, grafana
+- Reverse proxy, load balancing
+- Conteneurisation: Docker, docker-compose 
 
 ## Diagramme de séquence 
 
@@ -60,3 +72,8 @@ sequenceDiagram
     core_service->>haproxy: Send word validation.
     haproxy->>Client: Word validated.
 ```
+
+## Description des microservices et des API  
+
+Le projet est composé de 3 API et de 9 microservices. 
+
