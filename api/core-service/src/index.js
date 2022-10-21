@@ -51,7 +51,7 @@ app.get("/core/game", async (req, res) => {
     },
   });
   const body = {
-    length: WORD.length-1,
+    length: WORD.length, 
   };
   if (body.error) {
     res.status(404).send(JSON.stringify(body));
