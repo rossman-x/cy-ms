@@ -75,6 +75,7 @@ const Matrix = ({ size, showScore }) => {
             rows && rows.length && submitEssaie(rows[rows.length - 1])
           }
           className="bg-blue-400 p-2 rounded-lg"
+          disabled={rows[rows.length - 1].attempt==5}
         >
           Submit
         </button>
